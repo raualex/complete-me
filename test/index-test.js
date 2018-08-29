@@ -25,7 +25,7 @@ beforeEach(() => {
     
     trie.insert('hello')
 
-    assert.equal(trie.head.data, 'h')
+    assert.equal(trie.root.data, 'h')
   });
 
   it.skip('should add children to the beginning node', function() {
@@ -49,7 +49,9 @@ beforeEach(() => {
     trie.insert('wonder')
 
     assert.equal(trie.wordCount, 2)
-    console.log(JSON.stringify(trie.root, null, 4))
+    // console.log(JSON.stringify(trie.root, null, 4))
+
+    trie.suggest('wo')
   })
  })
  
