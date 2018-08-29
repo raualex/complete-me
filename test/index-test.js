@@ -3,6 +3,19 @@ const { assert } = require('chai');
 const Trie = require('../lib/index.js');
 let trie;
 
+
+const fs = require('fs');
+
+const text = "/usr/share/dict/words";
+const dictionary = fs.readFileSync(text).toString().trim().split('\n');
+
+const prefixTrie = new Trie();
+
+prefixTrie.populate(dictionary);
+
+console.log(prefixTrie.count());
+
+
 beforeEach(() => {
   trie = new Trie
 });
