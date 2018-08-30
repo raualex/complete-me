@@ -31,24 +31,33 @@ beforeEach(() => {
     
     trie.insert('word');
 
-    assert.isNotNull(trie.head)
+    assert.notEqual(trie.root.children, {})
   });
 
-  it.skip('should be able to add a node to the trie', function() {
+  it('should be able to add a node to the trie', function() {
     
     trie.insert('hello')
 
-    assert.equal(trie.root.data, 'h')
+    assert.deepEqual(Object.keys(trie.root.children), ['h'])
   });
 
-  it.skip('should add children to the beginning node', function() {
+  it('should add children to the root node', function() {
 
     trie.insert('bleistift')
-    let firstNode = trie.head.children
-   
-    assert.equal(firstNode[0].data, 'l')
+    let firstNode = trie.root
+
+    assert.notEqual(firstNode.end, true)
   })
 
+ })
+
+ describe('suggest', function() {
+  it('should be able to give suggestions based off of word in trie', function() {
+    trie.insert('newt')
+    trie.insert('newer')
+
+    assert.deepEqual(trie.suggest('new'), ['newt', 'newer'])
+  })
  })
 
  describe('count', function() {
@@ -62,9 +71,6 @@ beforeEach(() => {
     trie.insert('wonder')
 
     assert.equal(trie.wordCount, 2)
-    // console.log(JSON.stringify(trie.root, null, 4))
-
-    trie.suggest('wo')
   })
  })
  
