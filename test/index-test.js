@@ -13,8 +13,6 @@ const prefixTrie = new Trie();
 
 prefixTrie.populate(dictionary);
 
-console.log(prefixTrie.count());
-
 
 beforeEach(() => {
   trie = new Trie
@@ -31,24 +29,34 @@ beforeEach(() => {
     
     trie.insert('word');
 
-    assert.isNotNull(trie.head)
+    assert.notEqual(trie.root.children, {})
   });
 
-  it.skip('should be able to add a node to the trie', function() {
+  it('should be able to add a node to the trie', function() {
     
     trie.insert('hello')
 
-    assert.equal(trie.root.data, 'h')
+    assert.deepEqual(Object.keys(trie.root.children), ['h'])
   });
 
-  it.skip('should add children to the beginning node', function() {
+  it('should add multiple children to the root node', function() {
 
     trie.insert('bleistift')
-    let firstNode = trie.head.children
-   
-    assert.equal(firstNode[0].data, 'l')
+    trie.insert('stilo')
+    let firstNode = trie.root
+
+    assert.deepEqual(Object.keys(firstNode.children), ['b','s'])
   })
 
+ })
+
+ describe('suggest', function() {
+  it('should be able to give suggestions based off of words in trie', function() {
+    trie.insert('newt')
+    trie.insert('newer')
+
+    assert.deepEqual(trie.suggest('new'), ['newt', 'newer'])
+  })
  })
 
  describe('count', function() {
@@ -62,9 +70,17 @@ beforeEach(() => {
     trie.insert('wonder')
 
     assert.equal(trie.wordCount, 2)
-    // console.log(JSON.stringify(trie.root, null, 4))
+  })
+ })
 
-    trie.suggest('wo')
+ describe('populate', function() {
+  it('should be able to take the whole dictionary via the populate method', function() {
+    
+    assert.equal(trie.wordCount, 0)
+    
+    trie.populate(dictionary)
+    
+    assert.equal(trie.wordCount, 235886)
   })
  })
  
