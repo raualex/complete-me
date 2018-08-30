@@ -13,8 +13,6 @@ const prefixTrie = new Trie();
 
 prefixTrie.populate(dictionary);
 
-console.log(prefixTrie.count());
-
 
 beforeEach(() => {
   trie = new Trie
@@ -41,18 +39,19 @@ beforeEach(() => {
     assert.deepEqual(Object.keys(trie.root.children), ['h'])
   });
 
-  it('should add children to the root node', function() {
+  it('should add multiple children to the root node', function() {
 
     trie.insert('bleistift')
+    trie.insert('stilo')
     let firstNode = trie.root
 
-    assert.notEqual(firstNode.end, true)
+    assert.deepEqual(Object.keys(firstNode.children), ['b','s'])
   })
 
  })
 
  describe('suggest', function() {
-  it('should be able to give suggestions based off of word in trie', function() {
+  it('should be able to give suggestions based off of words in trie', function() {
     trie.insert('newt')
     trie.insert('newer')
 
@@ -71,6 +70,17 @@ beforeEach(() => {
     trie.insert('wonder')
 
     assert.equal(trie.wordCount, 2)
+  })
+ })
+
+ describe('populate', function() {
+  it('should be able to take the whole dictionary via the populate method', function() {
+    
+    assert.equal(trie.wordCount, 0)
+    
+    trie.populate(dictionary)
+    
+    assert.equal(trie.wordCount, 235886)
   })
  })
  
