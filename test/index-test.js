@@ -1,6 +1,7 @@
 
 const { assert } = require('chai');
 const Trie = require('../lib/index.js');
+const data = require('../lib/citydata.js');
 let trie;
 
 
@@ -81,6 +82,17 @@ beforeEach(() => {
     trie.populate(dictionary)
     
     assert.equal(trie.wordCount, 235886)
+  })
+
+  it('should be able to take the city data via the populate method', function() {
+
+    assert.equal(trie.wordCount, 0)
+    
+    trie.populate(data.data)
+    
+    assert.equal(trie.wordCount, 1000)
+
+    console.log(trie.suggest('new'))
   })
  })
  
